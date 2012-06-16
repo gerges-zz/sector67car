@@ -3,6 +3,8 @@ var nano = require('nano')('http://localhost:5984');
 
 var temp = require("./modules/temperature");
 var gps = require("./modules/gps");
+var data = require("./modules/data");
+var fault = require("./modules/fault");
 
 //Codes, and processors
 
@@ -13,7 +15,9 @@ var sourceCodes = {
 
 var dataProcessors = {	
 	"T": temp,
-	"G": gps
+	"G": gps,
+	"D": data,
+	"F": fault
 };
 
 //Persist data with nano (to couchdb)

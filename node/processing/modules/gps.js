@@ -1,6 +1,6 @@
 // gps plugin for powerserver
 // ========
-var gps = function(lat, lng, alt, speedInKnots) {
+var gpsProcessor = function(lat, lng, alt, speedInKnots) {
 	var speedInMph = speedInKnots * 1.15077945;
 	return {latitude: parseFloat(lat),
 		 	longitude: parseFloat(lng),
@@ -11,5 +11,5 @@ var gps = function(lat, lng, alt, speedInKnots) {
 module.exports = {
   name: "GPS",
   code: "gps",
-  processor: gps
+  processor: gpsProcessor
 };
