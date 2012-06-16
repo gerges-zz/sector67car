@@ -1,0 +1,27 @@
+The processing system expects data in the following format:
+
+For example:
+TT 1 123
+|| |___________data string
+||_________ data code
+|____ source code
+
+Currently we support the following
+
+Source Codes:
+	P => Paragon Motor Controller
+	T => Telemetry Board
+
+Data Codes:
+	T => Temperature
+	G => GPS
+
+Data should be formatted like this for the processor:
+	GPS:
+		lat lng alt speedInKnots
+		for example "TG 123.33 123.33 10 1"
+		
+	Temperature:
+		sensorNumber value
+		for example "TT 1 100"
+	
