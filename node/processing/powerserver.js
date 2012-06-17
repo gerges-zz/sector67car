@@ -5,6 +5,7 @@ var temp = require("./modules/temperature");
 var gps = require("./modules/gps");
 var data = require("./modules/data");
 var fault = require("./modules/fault");
+var voltage = require("./modules/voltage");
 
 //Codes, and processors
 
@@ -17,7 +18,8 @@ var dataProcessors = {
 	"T": temp,
 	"G": gps,
 	"D": data,
-	"F": fault
+	"F": fault,
+	"V": voltage
 };
 
 //Persist data with nano (to couchdb)
