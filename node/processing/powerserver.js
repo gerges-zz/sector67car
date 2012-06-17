@@ -25,6 +25,7 @@ var dataProcessors = {
 //Persist data with nano (to couchdb)
 var powerwheels = nano.db.use('powerwheels');
 var persistData = function (data) {
+	console.log(data);
 	//add/overide timestamp
 	data.timestamp = new Date();
 	powerwheels.insert(data, function(err, body, header) {
@@ -78,9 +79,10 @@ sp.on("data", function (data) {
 var myFunc = function () {
 	var items = ['TT 1 120\n', 
 	"TG 45.23 -89.1 22 5\n",
-	"TG 45.23 -89.2 22 6\n",
-	"TG 45.23 -89.3 22 10\n",
-	"TG 45.23 -89.4 22 15\n"]
+	"PD 1 255 128\n",
+	"PF 3\n",
+	"TV 1 36\n"];
+	console.log(items[Math.floor(Math.random()*items.length)]);
 	sp.write(items[Math.floor(Math.random()*items.length)]);
 }
 setInterval(myFunc, 3000);
