@@ -6,6 +6,7 @@ var gps = require("./modules/gps");
 var data = require("./modules/data");
 var fault = require("./modules/fault");
 var voltage = require("./modules/voltage");
+var accelerometer = require("./modules/accelerometer");
 
 //Codes, and processors
 
@@ -19,13 +20,16 @@ var dataProcessors = {
 	"G": gps,
 	"D": data,
 	"F": fault,
-	"V": voltage
+	"V": voltage,
+	"A": accelerometer
 };
 
-//Persist data with nano (to couchdb)
+//Persist data with znano (to couchdb)
 var powerwheels = nano.db.use('powerwheels');
 var persistData = function (data) {
-	console.log(data);
+	if(data.dataType === "GPS") {
+		console.log(data);
+	}
 	//add/overide timestamp
 	data.timestamp = new Date();
 	powerwheels.insert(data, function(err, body, header) {
@@ -62,7 +66,7 @@ var processData = function (data) {
 
 // monitor serial port data
 var SerialPort = serialport.SerialPort;
-var sp = new SerialPort("/dev/tty.usbmodemfa141", {
+var sp = new SerialPort("/dev/tty.usbserial-A501B4YB", {
 	baudrate: 9600,
 	parser: serialport.parsers.readline("\n")
 });
@@ -70,19 +74,12 @@ var sp = new SerialPort("/dev/tty.usbmodemfa141", {
 //process any recieved data
 sp.on("data", function (data) {
 	data = data.toString();
-    console.log("serial data: " + data);
-	processData(data);
+	if(data.indexOf("TG") == 0) {
+    	console.log("serial data: " + data);
+	}
+	try {
+		processData(data);
+	} catch (err) {
+		console.log(err);
+	}
 });
-
-
-//generate test data
-var myFunc = function () {
-	var items = ['TT 1 120\n', 
-	"TG 45.23 -89.1 22 5\n",
-	"PD 1 255 128\n",
-	"PF 3\n",
-	"TV 1 36\n"];
-	console.log(items[Math.floor(Math.random()*items.length)]);
-	sp.write(items[Math.floor(Math.random()*items.length)]);
-}
-setInterval(myFunc, 3000);
