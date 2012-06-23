@@ -61,21 +61,30 @@
 			<p>Real-time data from the Sector67 car at the "Power Racing Series". From our ground-up home grown motor controller to it's uber-performant Ultima batteries... see what we see, every step of the way.</p>
 		</div>
 		
-		<div class="one-third column feature">
-			<h2>Speed</h2> 
-			<div id="speed" class="jgauge"></div>
-		</div>
+		<div class="sixteen columns">
+			<div class="one-third column feature">
+				<h2>Speed</h2> 
+				<div id="speed" class="jgauge"></div>
+			</div>
+		
+			<div class="one-third column feature">
+			
+				<h2>Battery</h2>
+				<div id="batteries" class="jgauge"></div>
+			</div>
+			</div>
 		
 		<div class="one-third column feature">
-			
-			<h2>Temp</h2>
-			<div id="temp" class="jgauge"></div>
+			<h2>Telemetry Temp</h2>
+			<div id="telTemp" class="jgauge"></div>
 		</div>
-		
 		<div class="one-third column feature">
-			
-			<h2>Battery</h2>
-			<div id="batteries" class="jgauge"></div>
+			<h2>Left Motor Temp</h2>
+			<div id="leftTemp" class="jgauge"></div>
+		</div>
+		<div class="one-third column feature">
+			<h2>Right Motor Temp</h2>
+			<div id="rightTemp" class="jgauge"></div>
 		</div>
 		
 		<div class="sixteen columns">
@@ -105,28 +114,74 @@
 	
 	<script>
 	
-		var tempGauge = new jGauge(); // Create a new jGauge.
-		tempGauge.id = 'temp';
-		tempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
-		tempGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
-		tempGauge.segmentStart = -225
-		tempGauge.segmentEnd = 45
-		tempGauge.width = 170;
-		tempGauge.height = 170;
-		tempGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
-		tempGauge.needle.xOffset = 0;
-		tempGauge.needle.yOffset = 0;
-		tempGauge.label.yOffset = 55;
-		tempGauge.label.color = '#fff';
-		tempGauge.label.precision = 0; // 0 decimals (whole numbers).
-		tempGauge.label.suffix = '&deg F'; // Make the value label watts.
-		tempGauge.ticks.labelRadius = 45;
-		tempGauge.ticks.labelColor = '#0ce';
-		tempGauge.ticks.start = 0;
-		tempGauge.ticks.end = 200;
-		tempGauge.ticks.count = 12;
-		tempGauge.ticks.color = 'rgba(0, 0, 0, 0)';
-		tempGauge.range.color = 'rgba(0, 0, 0, 0)';
+		var telTempGauge = new jGauge(); // Create a new jGauge.
+		telTempGauge.id = 'telTemp';
+		telTempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
+		telTempGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
+		telTempGauge.segmentStart = -225
+		telTempGauge.segmentEnd = 45
+		telTempGauge.width = 170;
+		telTempGauge.height = 170;
+		telTempGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
+		telTempGauge.needle.xOffset = 0;
+		telTempGauge.needle.yOffset = 0;
+		telTempGauge.label.yOffset = 55;
+		telTempGauge.label.color = '#fff';
+		telTempGauge.label.precision = 0; // 0 decimals (whole numbers).
+		telTempGauge.label.suffix = '&deg F'; // Make the value label watts.
+		telTempGauge.ticks.labelRadius = 45;
+		telTempGauge.ticks.labelColor = '#0ce';
+		telTempGauge.ticks.start = 0;
+		telTempGauge.ticks.end = 200;
+		telTempGauge.ticks.count = 12;
+		telTempGauge.ticks.color = 'rgba(0, 0, 0, 0)';
+		telTempGauge.range.color = 'rgba(0, 0, 0, 0)';
+		
+		var leftMotorTempGauge = new jGauge(); // Create a new jGauge.
+		leftMotorTempGauge.id = 'leftTemp';
+		leftMotorTempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
+		leftMotorTempGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
+		leftMotorTempGauge.segmentStart = -225
+		leftMotorTempGauge.segmentEnd = 45
+		leftMotorTempGauge.width = 170;
+		leftMotorTempGauge.height = 170;
+		leftMotorTempGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
+		leftMotorTempGauge.needle.xOffset = 0;
+		leftMotorTempGauge.needle.yOffset = 0;
+		leftMotorTempGauge.label.yOffset = 55;
+		leftMotorTempGauge.label.color = '#fff';
+		leftMotorTempGauge.label.precision = 0; // 0 decimals (whole numbers).
+		leftMotorTempGauge.label.suffix = '&deg F'; // Make the value label watts.
+		leftMotorTempGauge.ticks.labelRadius = 45;
+		leftMotorTempGauge.ticks.labelColor = '#0ce';
+		leftMotorTempGauge.ticks.start = 0;
+		leftMotorTempGauge.ticks.end = 200;
+		leftMotorTempGauge.ticks.count = 12;
+		leftMotorTempGauge.ticks.color = 'rgba(0, 0, 0, 0)';
+		leftMotorTempGauge.range.color = 'rgba(0, 0, 0, 0)';
+		
+		var rightMotorTempGauge = new jGauge(); // Create a new jGauge.
+		rightMotorTempGauge.id = 'rightTemp';
+		rightMotorTempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
+		rightMotorTempGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
+		rightMotorTempGauge.segmentStart = -225
+		rightMotorTempGauge.segmentEnd = 45
+		rightMotorTempGauge.width = 170;
+		rightMotorTempGauge.height = 170;
+		rightMotorTempGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
+		rightMotorTempGauge.needle.xOffset = 0;
+		rightMotorTempGauge.needle.yOffset = 0;
+		rightMotorTempGauge.label.yOffset = 55;
+		rightMotorTempGauge.label.color = '#fff';
+		rightMotorTempGauge.label.precision = 0; // 0 decimals (whole numbers).
+		rightMotorTempGauge.label.suffix = '&deg F'; // Make the value label watts.
+		rightMotorTempGauge.ticks.labelRadius = 45;
+		rightMotorTempGauge.ticks.labelColor = '#0ce';
+		rightMotorTempGauge.ticks.start = 0;
+		rightMotorTempGauge.ticks.end = 200;
+		rightMotorTempGauge.ticks.count = 12;
+		rightMotorTempGauge.ticks.color = 'rgba(0, 0, 0, 0)';
+		rightMotorTempGauge.range.color = 'rgba(0, 0, 0, 0)';
 	
 		var batteryGauge = new jGauge(); // Create a new jGauge.
 		batteryGauge.id = 'batteries';
@@ -142,11 +197,11 @@
 		batteryGauge.label.yOffset = 55;
 		batteryGauge.label.color = '#fff';
 		batteryGauge.label.precision = 0; // 0 decimals (whole numbers).
-		batteryGauge.label.suffix = '%'; // Make the value label watts.
+		batteryGauge.label.suffix = 'V'; // Make the value label watts.
 		batteryGauge.ticks.labelRadius = 45;
 		batteryGauge.ticks.labelColor = '#0ce';
 		batteryGauge.ticks.start = 0;
-		batteryGauge.ticks.end = 100;
+		batteryGauge.ticks.end = 36;
 		batteryGauge.ticks.count = 12;
 		batteryGauge.ticks.color = 'rgba(0, 0, 0, 0)';
 		batteryGauge.range.color = 'rgba(0, 0, 0, 0)';
@@ -184,12 +239,6 @@
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
 				map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(56.8848, 14.7730),
-					icon: 'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-ff0000/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/sportscar.png',
-					map: map
-				});
-				map.setCenter(marker.position);
 			}
 
 			google.maps.event.addDomListener(window, 'load', initialize);
@@ -197,12 +246,13 @@
 							
 			speedGauge.init();
 			batteryGauge.init();
-			tempGauge.init();
+			telTempGauge.init();
+			leftMotorTempGauge.init();
+			rightMotorTempGauge.init();
 			
 			var socket = io.connect('http://localhost');
 			socket.on('gps', function (data) {
 				speedGauge.setValue(data.data.speed);
-				console.log(data.data.latitude, data.data.longitude);
 				var marker = new google.maps.Marker({
 					position: new google.maps.LatLng(data.data.latitude, data.data.longitude),
 					icon: 'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-ff0000/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/sportscar.png',
@@ -210,6 +260,22 @@
 				});
 				map.setCenter(marker.position);
 
+			});
+			
+			socket.on('temp', function (data) {
+				if(data.data.temperature > 0) {
+					if (data.data.sensorName == "telemetry") {
+							telTempGauge.setValue(data.data.temperature);	
+					} else if (data.data.sensorName == "leftMotor") {
+							leftMotorTempGauge.setValue(data.data.temperature);						
+					} if (data.data.sensorName == "rightMotor") {
+							rightMotorTempGauge.setValue(data.data.temperature);	
+					}
+				}
+			});
+			
+			socket.on('volts', function (data) {
+						batteryGauge.setValue(data.data.voltage);	
 			});
 			
 			
