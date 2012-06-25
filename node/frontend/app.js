@@ -58,8 +58,8 @@ feed.on("change", function(change) {
 	if(!change.deleted) {
 		powerwheels.get(change.id, function(err, body) {
 		  if (!err)
+			console.log("emit: "+ body.dataType);
 			io.sockets.emit(body.code, body);
-		    console.log(body);
 		});
 	}
 });

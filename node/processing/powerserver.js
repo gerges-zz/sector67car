@@ -27,9 +27,6 @@ var dataProcessors = {
 //Persist data with znano (to couchdb)
 var powerwheels = nano.db.use('powerwheels');
 var persistData = function (data) {
-	if(data.dataType === "GPS") {
-		console.log(data);
-	}
 	//add/overide timestamp
 	data.timestamp = new Date();
 	powerwheels.insert(data, function(err, body, header) {
@@ -37,7 +34,7 @@ var persistData = function (data) {
         console.log('[powerwheels.insert] ', err.message);
         return;
       }
-      console.log("powerwheels data logged" + data);
+      console.log("connected");
     });
 }
 
@@ -74,12 +71,9 @@ var sp = new SerialPort("/dev/tty.usbserial-A501B4YB", {
 //process any recieved data
 sp.on("data", function (data) {
 	data = data.toString();
-	if(data.indexOf("TG") == 0) {
-    	console.log("serial data: " + data);
-	}
 	try {
 		processData(data);
 	} catch (err) {
-		console.log(err);
+		console.log(data);
 	}
 });
