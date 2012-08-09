@@ -15,6 +15,10 @@ Source Codes:
 Data Codes:
 	T => Temperature
 	G => GPS
+	D => Motor Controller Data
+	F => Generic Fault Code
+	V => Battery Pack Voltage
+	A => Acceleromter Data
 
 Data should be formatted like this for the processor:
 	GPS:
