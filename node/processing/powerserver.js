@@ -18,7 +18,7 @@ var sourceCodes = {
 	"T": "Telemetry Board"
 };
 
-var dataProcessors = {	
+var dataProcessors = {
 	"T": temp,
 	"G": gps,
 	"D": data,
@@ -74,11 +74,19 @@ var processData = function (data) {
 		code: dataProcessor.code,
 		data: processedData
 	});
-}
+};
+
+var processDatas = function(datas) {
+	var dataArray = datas.split(', ');
+	_.each(dataArray, function (data) {
+		processData(data);
+	});
+};
 
 // monitor serial port data
 var browser = mdns.createBrowser(mdns.udp('telemetry'));
 browser.on('serviceUp', function(service) {
+  console.log(service);
   console.log(msg('Discovered telemetry service @' + service.host));
 
   console.log(nfo("Registering outgoing UDP socket on port " + port + "...."));
@@ -96,7 +104,7 @@ browser.on('serviceUp', function(service) {
     announceMessage();
 	//process any recieved data
 	try {
-		processData(data);
+		processDatas(data);
 	} catch (error) {
 		console.log(err("Unable to process message: " + data));
 	}
