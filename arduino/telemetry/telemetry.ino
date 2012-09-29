@@ -27,12 +27,12 @@ void loop() {
   if(packetSize) {
     // read the packet into packetBufffer
     udp.read(packetBuffer,UDP_TX_PACKET_MAX_SIZE);
-    if(strcmp(packetBuffer,"req") == 0) {
+    //if(strcmp(packetBuffer,"req") == 0) {
       udp.beginPacket(udp.remoteIP(), udp.remotePort());
       udp.write(message);
-      message[1000];
+      message[0] = '\0';
       udp.endPacket();
-    }
+    //}
   }
   
    //Motor Controller Listen
@@ -73,5 +73,5 @@ void loop() {
     
   
      Serial.println(message);
-     delay(500);
+     message[900] = '\0';
 }

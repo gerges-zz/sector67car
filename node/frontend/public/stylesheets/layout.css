@@ -105,13 +105,14 @@ img.logo {
 		copy your FontName into code below and remove
 		comment brackets */
 
-/*	@font-face {
-	    font-family: 'FontName';
-	    src: url('../fonts/FontName.eot');
-	    src: url('../fonts/FontName.eot?iefix') format('eot'),
-	         url('../fonts/FontName.woff') format('woff'),
-	         url('../fonts/FontName.ttf') format('truetype'),
-	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
-	    font-weight: normal;
-	    font-style: normal; }
-*/
+@font-face {
+    font-family: 'ferro_rossoregular';
+    src: url('ferrorosso-webfont.eot');
+    src: url('ferrorosso-webfont.eot?#iefix') format('embedded-opentype'),
+         url('ferrorosso-webfont.woff') format('woff'),
+         url('ferrorosso-webfont.ttf') format('truetype'),
+         url('ferrorosso-webfont.svg#ferro_rossoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

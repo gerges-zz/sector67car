@@ -52,9 +52,9 @@
 /* #Basic Styles
 ================================================== */
 	body {
-		background-image: -webkit-linear-gradient(#3d3d3d 0%, #b5b5b5 100%);
 		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: #444;
+		background-color: #00FF00;
 		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
 		-webkit-text-size-adjust: 100%;
  }
@@ -64,7 +64,7 @@
 ================================================== */
 	h1, h2, h3, h4, h5, h6 {
 		color: #181818;
-		font-family: "Georgia", "Times New Roman", serif;
+		font-family: "ferro_rossoregular", "Times New Roman", serif;
 		font-weight: normal; }
 	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
 	h1 { font-size: 46px; line-height: 50px; margin-bottom: 14px;}

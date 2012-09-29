@@ -5,7 +5,7 @@
 <!--[if (gte IE 9)|!(IE)]><!--> 	<html lang="en"> <!--<![endif]-->
 <head>
 
-	<!-- Basic Page Needs
+	<!-- Basic Page NeedsGeorgia
   ================================================== -->
 	<meta charset="utf-8" />
 	<title>Sector67 Dashboard</title>
@@ -46,56 +46,24 @@
 	================================================== -->
 	
 	<!-- Delete everything in this .container and get started on your own site! -->
-
-	<div id="back"><a href="http://www.sector67.org">Learn more about Sector67</a></div>
 	
-	<div class="container">
-		
-		<div class="sixteen columns" style="margin-bottom: 10px">
-			<img class="logo" src="images/sector67.png" />
-		</div>
-		
-		
-		<div id="welcome" class="sixteen columns">
-			<h1>Dashboard</h1>
-			<p>Real-time data from the Sector67 car at the "Power Racing Series". From our ground-up home grown motor controller to it's uber-performant Ultima batteries... see what we see, every step of the way.</p>
-		</div>
-		
-		<div class="sixteen columns">
+	<div class="container">	
 			<div class="one-third column feature">
-				<h2>Speed</h2> 
-				<div id="speed" class="jgauge"></div>
-			</div>
-		
-			<div class="one-third column feature">
-			
-				<h2>Battery</h2>
+				<h2>Bus Voltage</h2>
 				<div id="batteries" class="jgauge"></div>
 			</div>
+			<div class="one-third column feature">
+				<h2>Motor Temp 1</h2>
+				<div id="leftTemp" class="jgauge"></div>
 			</div>
-		
-		<div class="one-third column feature">
-			<h2>Telemetry Temp</h2>
-			<div id="telTemp" class="jgauge"></div>
-		</div>
-		<div class="one-third column feature">
-			<h2>Left Motor Temp</h2>
-			<div id="leftTemp" class="jgauge"></div>
-		</div>
-		<div class="one-third column feature">
-			<h2>Right Motor Temp</h2>
-			<div id="rightTemp" class="jgauge"></div>
-		</div>
-		
-		<div class="sixteen columns">
-			<h2>Current Location</h2>
-			<div id="map_canvas" style="height: 300px; margin-bottom: 50px;"></div>
-		</div>
-		
-		<div class="sixteen columns">
-			<h2>...more to come</h2>
-		</div>
-		
+			<div class="one-third column feature">
+				<h2>Motor Temp 2</h2>
+				<div id="rightTemp" class="jgauge"></div>
+			</div>
+			<div class="sixteen columns">
+				<h2>Motor Controller Bus Voltage</h2>
+				<div id="voltageLiveChart" style="width: 900px; height: 500px; margin: auto auto 20px auto;"></div>
+			</div>
 
 	</div><!-- container -->
 
@@ -105,38 +73,14 @@
 		
 	<!-- JS
 	================================================== -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-	<script>window.jQuery || document.write("<script src='javascripts/jquery-1.5.1.min.js'>\x3C/script>")</script>
+	<script language="javascript" src='javascripts/jquery-1.8.2.min.js'></script>
+	<script language="javascript" src='javascripts/jQuery.flot.js'></script>
 	<script language="javascript" type="text/javascript" src="javascripts/jguage/js/jQueryRotate.min.js"></script>
 	<script language="javascript" type="text/javascript" src="javascripts/jguage/js/jgauge-0.3.0.a3.js"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	
 	<script>
 	
-		var telTempGauge = new jGauge(); // Create a new jGauge.
-		telTempGauge.id = 'telTemp';
-		telTempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
-		telTempGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
-		telTempGauge.segmentStart = -225
-		telTempGauge.segmentEnd = 45
-		telTempGauge.width = 170;
-		telTempGauge.height = 170;
-		telTempGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
-		telTempGauge.needle.xOffset = 0;
-		telTempGauge.needle.yOffset = 0;
-		telTempGauge.label.yOffset = 55;
-		telTempGauge.label.color = '#fff';
-		telTempGauge.label.precision = 0; // 0 decimals (whole numbers).
-		telTempGauge.label.suffix = '&deg F'; // Make the value label watts.
-		telTempGauge.ticks.labelRadius = 45;
-		telTempGauge.ticks.labelColor = '#0ce';
-		telTempGauge.ticks.start = 0;
-		telTempGauge.ticks.end = 200;
-		telTempGauge.ticks.count = 12;
-		telTempGauge.ticks.color = 'rgba(0, 0, 0, 0)';
-		telTempGauge.range.color = 'rgba(0, 0, 0, 0)';
-		
 		var leftMotorTempGauge = new jGauge(); // Create a new jGauge.
 		leftMotorTempGauge.id = 'leftTemp';
 		leftMotorTempGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
@@ -201,71 +145,82 @@
 		batteryGauge.ticks.labelRadius = 45;
 		batteryGauge.ticks.labelColor = '#0ce';
 		batteryGauge.ticks.start = 0;
-		batteryGauge.ticks.end = 36;
+		batteryGauge.ticks.end = 50;
 		batteryGauge.ticks.count = 12;
 		batteryGauge.ticks.color = 'rgba(0, 0, 0, 0)';
 		batteryGauge.range.color = 'rgba(0, 0, 0, 0)';
-	
-	
-		var speedGauge = new jGauge(); // Create a new jGauge.
-		speedGauge.id = 'speed';
-		speedGauge.autoPrefix = autoPrefix.si; // Use SI prefixing (i.e. 1k = 1000).
-		speedGauge.imagePath = 'javascripts/jguage/img/jgauge_face_taco.png';
-		speedGauge.segmentStart = -225
-		speedGauge.segmentEnd = 45
-		speedGauge.width = 170;
-		speedGauge.height = 170;
-		speedGauge.needle.imagePath = 'javascripts/jguage/img/jgauge_needle_taco.png';
-		speedGauge.needle.xOffset = 0;
-		speedGauge.needle.yOffset = 0;
-		speedGauge.label.yOffset = 55;
-		speedGauge.label.color = '#fff';
-		speedGauge.label.precision = 0; // 0 decimals (whole numbers).
-		speedGauge.label.suffix = 'MPH'; // Make the value label watts.
-		speedGauge.ticks.labelRadius = 45;
-		speedGauge.ticks.labelColor = '#0ce';
-		speedGauge.ticks.start = 0;
-		speedGauge.ticks.end = 35;
-		speedGauge.ticks.count = 10;
-		speedGauge.ticks.color = 'rgba(0, 0, 0, 0)';
-		speedGauge.range.color = 'rgba(0, 0, 0, 0)';
-	
-		$(document).ready(function () {
-			
-			function initialize() {
-				var myOptions = {
-					zoom: 8,
-					center: new google.maps.LatLng(-34.397, 150.644),
-					mapTypeId: google.maps.MapTypeId.ROADMAP
-				};
-				map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-			}
 
-			google.maps.event.addDomListener(window, 'load', initialize);
-							
-							
-			speedGauge.init();
+		series = [{
+			data: [],
+			lines: {
+				fill: true
+			}
+		}];
+
+		var voltLive = jQuery('#voltageLiveChart');
+		var plot = $.plot(voltLive, series, {
+			grid: {
+				borderWidth: 1,
+				minBorderMargin: 20,
+				labelMargin: 10,
+				backgroundColor: {
+					colors: ["#fff", "#e4f4f4"]
+				},
+				hoverable: true,
+				mouseActiveRadius: 50,
+				margin: {
+					top: 8,
+					bottom: 20,
+					left: 20
+				},
+				markings: function(axes) {
+					var markings = [];
+					var xaxis = axes.xaxis;
+					for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2) {
+						markings.push({ xaxis: { from: x, to: x + xaxis.tickSize }, color: "rgba(232, 232, 255, 0.2)" });
+					}
+					return markings;
+				}
+			},
+			yaxis: {
+				min: 0,
+				max: 50
+			},
+			xaxis: {
+				show: false,
+				min: 0,
+				max: 100
+			},
+			legend: {
+				show: true
+			}
+		});
+
+		var addData = function(arr, item) {
+			if(arr.length >= 100) {
+				arr.splice(0, 1);
+				jQuery.each(arr, function (i, val) {
+					arr[i] = [i, val[1]];
+				});
+				arr.push([100, item]);
+			} else {
+				arr.push([arr.length, item]);
+			}
+			return arr;
+		}
+		
+
+		$(document).ready(function () {
+			var i = 0;
 			batteryGauge.init();
-			telTempGauge.init();
 			leftMotorTempGauge.init();
 			rightMotorTempGauge.init();
 			
 			var socket = io.connect('http://localhost');
-			socket.on('gps', function (data) {
-				speedGauge.setValue(data.data.speed);
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(data.data.latitude, data.data.longitude),
-					map: map
-				});
-				map.setCenter(marker.position);
-
-			});
 			
 			socket.on('temp', function (data) {
 				if(data.data.temperature > 0) {
-					if (data.data.sensorName == "telemetry") {
-							telTempGauge.setValue(data.data.temperature);	
-					} else if (data.data.sensorName == "leftMotor") {
+					if (data.data.sensorName == "leftMotor") {
 							leftMotorTempGauge.setValue(data.data.temperature);						
 					} if (data.data.sensorName == "rightMotor") {
 							rightMotorTempGauge.setValue(data.data.temperature);	
@@ -274,7 +229,10 @@
 			});
 			
 			socket.on('volts', function (data) {
-						batteryGauge.setValue(data.data.voltage);	
+				batteryGauge.setValue(data.data.voltage);
+				series[0].data = addData(series[0].data, data.data.voltage);
+				plot.setData(series);
+				plot.draw();
 			});
 			
 			
